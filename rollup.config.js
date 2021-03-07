@@ -7,7 +7,29 @@ import visualizer from 'rollup-plugin-visualizer';
 import {sizeSnapshot} from "rollup-plugin-size-snapshot";
 import {terser} from 'rollup-plugin-terser';
 
+const rollupWatch = !process.env.ROLLUP_WATCH;
+
+
+const cors = require('@koa/cors');
+
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
+
+const server = () => {
+    const Koa = require('koa');
+
+    console.log('test server server')
+    const app = new Koa();
+
+    app.use(cors());
+
+    // response
+    app.use(ctx => {
+        ctx.body = 'Hello Koa fkfkf';
+    });
+
+    app.listen(3000);
+
+}
 
 const getPlugins = (options) => [
         nodeResolve({
@@ -23,10 +45,16 @@ const getPlugins = (options) => [
     }),
     sizeSnapshot(),
     terser(),
-    visualizer()
+    visualizer(),
 ];
 
-export default [
+const build = () => {
+    console.log('process.env', process.env)
+    if (!rollupWatch) {
+        server();
+    }
+
+    return [
     // {
     // input: 'src/polyfills.ts',
     // output: [{ file: 'dist/polyfills.min.js', format: 'iife' }],
@@ -54,8 +82,9 @@ export default [
     //     output: [{ file: 'dist/webworker.min.js', format: 'iife' }],
     //     plugins: getPlugins({ target: "es5" })
     // }
-];
+]}
 
+export default build;
 // export default [{
 //     input: 'src/index.ts',
 //     output: [{ file: 'dist/index.r.min.js', format: 'iife' }],
@@ -73,3 +102,4 @@ export default [
 //         visualizer() // анализатор бандла,
 //     ]
 // }];
+

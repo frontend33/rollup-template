@@ -5,17 +5,17 @@
     "gzipped": 114
   },
   "index.next.min.js": {
-    "bundled": 195,
+    "bundled": 352,
     "minified": 109,
     "gzipped": 114
   },
   "index.es5.min.js": {
-    "bundled": 312,
+    "bundled": 469,
     "minified": 159,
     "gzipped": 133
   },
   "index.es3.min.js": {
-    "bundled": 312,
+    "bundled": 469,
     "minified": 159,
     "gzipped": 133
   }
