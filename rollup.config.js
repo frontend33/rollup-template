@@ -10,24 +10,28 @@ import {terser} from 'rollup-plugin-terser';
 const rollupWatch = !process.env.ROLLUP_WATCH;
 
 
-const cors = require('@koa/cors');
-
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 
 const server = () => {
     const Koa = require('koa');
+    const Router = require('@koa/router');
+    const router = new Router();
+    const cors = require('@koa/cors');
+    const send = require('koa-send');
 
-    console.log('test server server')
     const app = new Koa();
 
     app.use(cors());
 
-    // response
-    app.use(ctx => {
-        ctx.body = 'Hello Koa fkfkf';
+    router.get('/', async (ctx) => {
+        console.log('ctx', ctx)
+        await send(ctx, './public/index.html');
     });
 
-    app.listen(3000);
+    app.use(router.routes());
+
+    const port = process.env.PORT || 3000;
+    app.listen(port);
 
 }
 
@@ -49,7 +53,6 @@ const getPlugins = (options) => [
 ];
 
 const build = () => {
-    console.log('process.env', process.env)
     if (!rollupWatch) {
         server();
     }
